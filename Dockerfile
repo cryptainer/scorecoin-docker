@@ -11,7 +11,7 @@ ENV WALLET_DATA /data/
 
 RUN apt-get update && \
     apt-get install -y wget build-essential libssl-dev libdb++-dev libboost-all-dev libqrencode-dev \
-    libminiupnpc-dev dh-autoreconf libgmp-dev
+    dh-autoreconf libgmp-dev
 
 COPY /docker-entrypoint.sh $_entryPointBin
 
@@ -29,7 +29,7 @@ RUN chmod +x $_entryPointBin && \
     ./configure && \
     cd .. && \
     ls -alh && \
-    make -f makefile.unix && \
+    make -f makefile.unix USE_UPNP=- && \
     mkdir -p `dirname $_scorecoinBin` && \
     mv Scored $_scorecoinBin && \
     ln -s $_scorecoinBin /usr/local/bin/scored && \
